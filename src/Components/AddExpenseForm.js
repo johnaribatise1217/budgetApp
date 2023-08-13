@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { AppContext } from './AppContext'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -24,6 +24,13 @@ const AddExpenseForm = () => {
     setName('')
     setCost('')
   }
+
+    useEffect(() => {
+        let storedItems = JSON.parse(localStorage.getItem('expenses'))
+        if (storedItems) {
+            dispatch({ type: 'ADD EXPENSE', payload: storedItems });
+        }
+    }, [])
 
   return (
     <form onSubmit={handleClick}>

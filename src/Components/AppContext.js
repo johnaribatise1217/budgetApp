@@ -1,4 +1,4 @@
-import React, { useReducer } from "react";
+import React, { useReducer , useEffect} from "react";
 import { createContext } from "react";
 
 const AppReducer = (state, action) => {
@@ -30,6 +30,11 @@ export const AppContext = createContext()
 
 export const AppProvider = (props) =>{
     const [state, dispatch] = useReducer(AppReducer , initialState)
+
+    useEffect(() => {
+        // Save expenses array to local storage whenever it changes
+        localStorage.setItem('expenses', JSON.stringify(state.expenses));
+    }, [state.expenses]);
     
     return (
         <AppContext.Provider value={{budget: state.budget, expenses:state.expenses, dispatch}}>
